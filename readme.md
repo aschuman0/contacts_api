@@ -10,7 +10,7 @@ skhsdkfjhs;kjdfhsl;kjfhksjdhfks
 
 GET /api/v1/contacts
 
-GET /api/v1/contacts?id=<contact_id>
+GET /api/v1/contacts/<contact_id>
 
 POST /api/v1/contacts
 

@@ -8,7 +8,7 @@ skhsdkfjhs;kjdfhsl;kjfhksjdhfks
 
 ## Endpoints
 
-GET /api/v1/contacts
+GET /api/v1/contacts (optional single query string filter for email, first name or last name)
 
 GET /api/v1/contacts/<contact_id>
 

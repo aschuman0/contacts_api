@@ -38,7 +38,14 @@ def validate_contact(form_data, user):
 
     return input_data
 
-# error handlers (TODO - 404, 400)
+# error handlers
+@app.errorhandler(400)
+def bad_request(error):
+    return make_response(jsonify({'error': 'bad request'}), 400)
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'not found'}), 404)
 
 # routes
 @app.route(BASE_URL, methods=['GET'])

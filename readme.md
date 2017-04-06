@@ -17,7 +17,7 @@ Optionally can filter by email:
 GET /api/v1/contacts?email=example@email.com
 ```
 
-### GET /api/v1/contacts/<contact_id>
+### GET /api/v1/contacts/<contact_id>/
 
 Returns a single contact by contact_id value
 
@@ -38,11 +38,11 @@ Example data -
 }
 ```
 
-### PUT /api/v1/contacts/<contact_id>
+### PUT /api/v1/contacts/<contact_id>/
 
 Replaces data for a given existing contact_id.
 All existing data is replaced, including optional fields not included. 
 
-### DELETE /api/v1/contacts/<contact_id>
+### DELETE /api/v1/contacts/<contact_id>/
 
 Removes a contact given an existing contact_id.

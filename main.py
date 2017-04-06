@@ -42,13 +42,11 @@ def validate_contact(form_data, user):
 
 # routes
 @app.route(BASE_URL, methods=['GET'])
-@app.route(BASE_URL + '/', methods=['GET'])
 def list_contacts():
     # TODO - filter by query string
 
     return jsonify(contacts)
 
-@app.route(BASE_URL + '/<contact_id>', methods=['GET'])
 @app.route(BASE_URL + '/<contact_id>/', methods=['GET'])
 def get_contact(contact_id):
     if contacts:
@@ -76,7 +74,7 @@ def add_contact():
 
     return make_response(jsonify({'contact_id': str(new_uuid)}))
 
-@app.route(BASE_URL + '/<contact_id>', methods=['PUT'])
+@app.route(BASE_URL + '/<contact_id>/', methods=['PUT'])
 def replace_contact(contact_id):
     
     # check auth TODO
@@ -90,8 +88,10 @@ def replace_contact(contact_id):
                 contact[contact_id] = input_data
                 return make_response(jsonify({'ok': input_data}), 200)
             else:
+                print('inner')
                 abort(404)
     else:
+        print('outer')
         abort(404)
 
 if __name__=='__main__':

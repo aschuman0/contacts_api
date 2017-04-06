@@ -53,8 +53,7 @@ def get_contact(contact_id):
         for contact in contacts:
             if contact_id in contact.keys():
                 return jsonify(contact)
-            else:
-                abort(404)
+        abort(404)
     else:
         abort(404)
 
@@ -87,11 +86,20 @@ def replace_contact(contact_id):
             if contact_id in contact.keys():
                 contact[contact_id] = input_data
                 return make_response(jsonify({'ok': input_data}), 200)
-            else:
-                print('inner')
-                abort(404)
+        abort(404)
     else:
-        print('outer')
+        abort(404)
+
+@app.route(BASE_URL + '/<contact_id>/', methods=['DELETE'])
+def delete_contact(contact_id):
+    if contacts:
+        for contact in contacts:
+            if contact_id in contact.keys():
+                # idx = contacts.index(contact)
+                contacts.pop(contacts.index(contact))
+                return make_response(jsonify({'deleted': contact}), 200)
+        abort(404)
+    else:
         abort(404)
 
 if __name__=='__main__':

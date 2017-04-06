@@ -17,7 +17,7 @@ $ virtualenv .
 Activate your virtualenv:
 
 ```bash
-$ virtualenv bin/activate
+$ source bin/activate
 ```
 
 Install requirments using pip:

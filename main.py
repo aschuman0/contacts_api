@@ -11,10 +11,41 @@ app = Flask(__name__)
 BASE_URL = '/api/v1/contacts'
 contacts = []
 
+def validate_contact(form_data, user):
+    input_data = {}
+
+    input_data['modifying_user'] = user
+
+    if 'email' in request.form:
+        input_data['email'] = form_data['email']
+    else:
+        abort(400)
+
+    if 'first_name' in request.form:
+        input_data['first_name'] = form_data['first_name']
+    else:
+        abort(400)
+
+    if 'last_name' in request.form:
+        input_data['last_name'] = form_data['last_name']
+    else:
+        abort(400)
+
+    if 'address' in request.form:
+        input_data['address'] = form_data['address']
+    else:
+        input_data['address'] = None
+
+    return input_data
+
+# error handlers (TODO - 404, 400)
+
 # routes
 @app.route(BASE_URL, methods=['GET'])
 @app.route(BASE_URL + '/', methods=['GET'])
 def list_contacts():
+    # TODO - filter by query string
+
     return jsonify(contacts)
 
 @app.route(BASE_URL + '/<contact_id>', methods=['GET'])
@@ -25,41 +56,18 @@ def get_contact(contact_id):
             if contact_id in contact.keys():
                 return jsonify(contact)
             else:
-                return make_response(jsonify({'error': 'id not found'}), 404)
+                abort(404)
     else:
-        return make_response(jsonify({'error': 'id not found'}), 404)
+        abort(404)
 
 @app.route(BASE_URL, methods=['POST'])
-@app.route(BASE_URL + '/', methods=['POST'])
 def add_contact():
     
     # check auth TODO
-    user = 'luv2auth'
+    user = 'luv2add'
 
     # validate data & build contact
-    input_data = {}
-
-    input_data['modifying_user'] = user
-
-    if 'email' in request.form:
-        input_data['email'] = request.form['email']
-    else:
-        return make_response(jsonify({'error': 'email required'}), 400)
-
-    if 'first_name' in request.form:
-        input_data['first_name'] = request.form['first_name']
-    else:
-        return make_response(jsonify({'error': 'first_name required'}), 400)
-
-    if 'last_name' in request.form:
-        input_data['last_name'] = request.form['last_name']
-    else:
-        return make_response(jsonify({'error': 'last_name required'}), 400)
-
-    if 'address' in request.form:
-        input_data['address'] = request.form['address']
-    else:
-        input_data['address'] = None
+    input_data = validate_contact(request.form, user)
 
     # create UUID
     new_uuid = uuid.uuid4()
@@ -68,8 +76,23 @@ def add_contact():
 
     return make_response(jsonify({'contact_id': str(new_uuid)}))
 
+@app.route(BASE_URL + '/<contact_id>', methods=['PUT'])
+def replace_contact(contact_id):
+    
+    # check auth TODO
+    user = 'luv2change'
 
-# error handlers (TODO)
+    input_data = validate_contact(request.form, user)
+
+    if contacts:
+        for contact in contacts:
+            if contact_id in contact.keys():
+                contact[contact_id] = input_data
+                return make_response(jsonify({'ok': input_data}), 200)
+            else:
+                abort(404)
+    else:
+        abort(404)
 
 if __name__=='__main__':
     app.run(debug=True)

@@ -4,7 +4,7 @@ A simple flask-based RESTful API for contact management
 
 ## Installation
 
-Install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) and [pip](https://pip.pypa.io/en/stable/installing/) if you have not already. 
+Install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) if you have not already. 
 
 Clone the repo locally. 
 
@@ -20,7 +20,7 @@ Activate your virtualenv:
 $ source bin/activate
 ```
 
-Install requirments using pip:
+Install requirements using pip:
 
 ```bash
 $ pip install -r requirements.txt

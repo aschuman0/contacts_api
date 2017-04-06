@@ -38,6 +38,18 @@ def validate_contact(form_data, user):
 
     return input_data
 
+def email_filter(email_arg):
+    filtered = []
+    if contacts:
+        for contact in contacts:
+            if contact[contact.keys()[0]]['email'] == email_arg:
+                filtered.append(contact)
+
+    if filtered:
+        return filtered
+    else:
+        abort(404)
+
 # error handlers
 @app.errorhandler(400)
 def bad_request(error):
@@ -51,8 +63,11 @@ def not_found(error):
 @app.route(BASE_URL, methods=['GET'])
 def list_contacts():
     # TODO - filter by query string
-
-    return jsonify(contacts)
+    if request.args.get('email'):
+        filtered = email_filter(request.args.get('email'))
+        return make_response(jsonify(filtered), 200)
+    else:
+        return jsonify(contacts)
 
 @app.route(BASE_URL + '/<contact_id>/', methods=['GET'])
 def get_contact(contact_id):

@@ -1,28 +1,28 @@
 import uuid
 
-from flask import abort, jsonify, make_response, request
+from flask import abort
 
 def validate_contact(form_data, user):
     input_data = {}
 
     input_data['modified_by'] = user
 
-    if 'email' in request.form:
+    if 'email' in form_data:
         input_data['email'] = form_data['email']
     else:
         abort(400)
 
-    if 'first_name' in request.form:
+    if 'first_name' in form_data:
         input_data['first_name'] = form_data['first_name']
     else:
         abort(400)
 
-    if 'last_name' in request.form:
+    if 'last_name' in form_data:
         input_data['last_name'] = form_data['last_name']
     else:
         abort(400)
 
-    if 'address' in request.form:
+    if 'address' in form_data:
         input_data['address'] = form_data['address']
     else:
         input_data['address'] = None
